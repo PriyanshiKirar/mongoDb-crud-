@@ -4,11 +4,12 @@ const app = express();
 const userModel = require("./model/user.model");
 const selModel = require("./model/sell.model")
 
-app.get("/", function (req, res) {
-    res.send("indexpage")
-});
+app.set("view engine", "ejs");
 
-//create operation
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// create operation
 app.get("/create", async function (req, res) {
     const user = await userModel.create({
         name: "abhi",
@@ -37,8 +38,8 @@ app.get("/user/:username", async function (req, res) {
     res.send(user);
 });
 // do update the value
-app.get('/update/:username',async function(req,res){
-    let updated=await userModel.findOneAndUpdate({name:"abhi"},{name:"abhi patel"},{new:true});
+app.get('/update/:username', async function (req, res) {
+    let updated = await userModel.findOneAndUpdate({ name: "abhi" }, { name: "abhi patel" }, { new: true });
     res.send(updated)
 });
 // app.get('/update/:username',async function(req,res){
@@ -48,8 +49,26 @@ app.get('/update/:username',async function(req,res){
 //     res.send(user)
 // });
 
-app.get('/delete',async function(req,res){
-    let deleted= await userModel.findOneAndDelete({name:"arsh"});
+app.get('/delete', async function (req, res) {
+    let deleted = await userModel.findOneAndDelete({ name: "arsh" });
     res.send(deleted)
 })
+
+//from part start
+app.get("/", function (req, res) {
+    res.render("index")
+});
+app.post("/register", async function (req, res) {
+    let { name, email, age } = req.body;
+    let create = await userModel.create({
+        name,
+        email,
+        age,
+    })
+    res.send("create")
+});
+
+
+
+
 app.listen(3000);
