@@ -65,7 +65,7 @@ app.post("/register", async function (req, res) {
         email,
         age,
     })
-    res.send("create")
+    res.send(create)
 });
 
 
