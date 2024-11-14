@@ -1,6 +1,7 @@
 require("./config/db.config");
 const express = require("express");
 const app = express();
+const path=require('path');
 const userModel = require("./model/user.model");
 const selModel = require("./model/sell.model")
 
@@ -8,6 +9,7 @@ app.set("view engine", "ejs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname,"public")))
 
 // create operation
 app.get("/create", async function (req, res) {
