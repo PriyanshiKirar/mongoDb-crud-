@@ -108,7 +108,7 @@ app.post('/register', function (req, res) {
             const user = await userModel.create({
                 name,
                 email,
-                password: hash,  //
+                password: hash,  //encrypted password aatah hash m
             })
             //for save the token in our browser
             const token = jwt.sign({ email }, "screte");
