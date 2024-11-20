@@ -88,7 +88,7 @@ app.use(cookieParser());
 app.get("/", function (req, res) {
     res.render("register");
 })
-
+// here islogged middleware pass kiya h agr loggein hoga to rout open hoga
 app.get('/screte',islogged,function(req,res){
 res.send("screttttt")
 })
