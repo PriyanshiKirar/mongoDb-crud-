@@ -88,6 +88,11 @@ app.use(cookieParser());
 app.get("/", function (req, res) {
     res.render("register");
 })
+
+app.get('/screte',islogged,function(req,res){
+res.send("screttttt")
+})
+
 app.get("/profile", function (req, res) {
 
     let token = req.cookies.token;
@@ -118,4 +123,36 @@ app.post('/register', function (req, res) {
     })
 })
 
+app.get('/login', function (req, res) {
+    res.render('login');
+})
+app.post('/login', async function (req, res) {
+    const { email, password } = req.body;
+    let user = await userModel.findOne({ email })
+    if (!user) return res.send('email or password inccorrect')
+    //compare kr rhe h register krte time jo email password diye the login krte time match kr rhe h
+    bcrypt.compare(password, user.password, function (err, result) {
+        if (result) {
+            // return res.send("loggedin")
+            let token = jwt.sign({ email }, "screte");
+            res.cookie("token", token);
+            res.send("loggedin")
+        }
+        else return res.send("email or password incorrect")
+    })
+});
+
+//make this middleware if person is logged in other rout s pehle caheck kr h then bo rout chal h
+function islogged(req,res,next){
+    if(!req.cookies.token) return res.redirect("/login")
+        jwt.verify(req.cookies.token,"screte",function(err,decoded){
+    if(err){
+        res.cookie("token","");
+        res.redirect("/login")
+    }
+    // console.log(decoded)
+    req.user=decoded;
+    next();
+    })
+}
 app.listen(process.PORT || 3000);
