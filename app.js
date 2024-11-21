@@ -151,8 +151,11 @@ function islogged(req,res,next){
         res.redirect("/login")
     }
     // console.log(decoded)
-    req.user=decoded;
-    next();
+    else {
+
+        req.user=decoded;
+        next();
+    }
     })
 }
 app.listen(process.PORT || 3000);
