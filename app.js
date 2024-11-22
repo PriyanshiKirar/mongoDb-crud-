@@ -152,7 +152,6 @@ function islogged(req,res,next){
     }
     // console.log(decoded)
     else {
-
         req.user=decoded;
         next();
     }
