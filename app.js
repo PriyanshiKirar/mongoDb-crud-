@@ -101,10 +101,12 @@ app.get("/profile", function (req, res) {
         res.send(decoded);
     })
 })
-app.post('/register', function (req, res) {
+app.post('/register',async function (req, res) {
     // res.send(req.body)
     const { name, email, password } = req.body;
-
+const user=await userModel.findOne({email});
+if(user) return res.send("user alserdy exis");
+res.redirect("/register");
     //paasword ko encrypt krna 
     bcrypt.genSalt(10, function (err, salt) {
         console.log(salt)
