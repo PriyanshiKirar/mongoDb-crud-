@@ -81,16 +81,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const expressSesion=require("express-session");
+const flash=require('connect-flash')
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(expressSession({
+app.use(expressSesion({
     secret: 'sdfghjklll',
     resave: false,
     saveUninitialized: true,
 }))
+app.use(flash());
 
 app.get("/", function (req, res) {
     res.render("register");
